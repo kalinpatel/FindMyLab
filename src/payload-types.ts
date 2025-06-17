@@ -72,6 +72,8 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
+    opportunities: Opportunity;
+    programs: Program;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -88,6 +90,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    opportunities: OpportunitiesSelect<false> | OpportunitiesSelect<true>;
+    programs: ProgramsSelect<false> | ProgramsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -729,6 +733,137 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "opportunities".
+ */
+export interface Opportunity {
+  id: string;
+  title: string;
+  /**
+   * A detailed description of the opportunity.
+   */
+  description: string;
+  researchType: 'Internship' | 'Undergraduate Research' | 'Graduate Research' | 'Other';
+  modality: 'in-person' | 'remote' | 'hybrid';
+  dates: {
+    start: string;
+    end: string;
+  };
+  deadline?: {
+    isRolling?: boolean | null;
+    date?: string | null;
+  };
+  'parent-program'?: (string | null) | Program;
+  contact: {
+    type: 'person' | 'organization';
+    name: string;
+    email: string;
+    phone?: string | null;
+    department?:
+      | (
+          | 'ACES'
+          | 'AHS'
+          | 'ARMED_FORCES'
+          | 'CARLE'
+          | 'MEDIA'
+          | 'DGS'
+          | 'EDUCATION'
+          | 'FAA'
+          | 'GIES'
+          | 'GRADUATE'
+          | 'GRAINGER'
+          | 'LAW'
+          | 'LAS'
+          | 'ISCHOOL'
+          | 'LABOR'
+          | 'SOCIAL_WORK'
+          | 'SIEBELDESIGN'
+          | 'SIEBELCS'
+          | 'VET_MED'
+          | 'NURSING'
+          | 'EXTERNAL'
+        )
+      | null;
+    office?: {
+      building?: string | null;
+      room?: string | null;
+      address?: string | null;
+    };
+    id?: string | null;
+  }[];
+  affiliations?:
+    | (
+        | 'ACES'
+        | 'AHS'
+        | 'ARMED_FORCES'
+        | 'CARLE'
+        | 'MEDIA'
+        | 'DGS'
+        | 'EDUCATION'
+        | 'FAA'
+        | 'GIES'
+        | 'GRADUATE'
+        | 'GRAINGER'
+        | 'LAW'
+        | 'LAS'
+        | 'ISCHOOL'
+        | 'LABOR'
+        | 'SOCIAL_WORK'
+        | 'SIEBELDESIGN'
+        | 'SIEBELCS'
+        | 'VET_MED'
+        | 'NURSING'
+        | 'EXTERNAL'
+      )[]
+    | null;
+  /**
+   * Keywords to help with searching and categorizing
+   */
+  keywords?:
+    | {
+        keyword?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  restrictions?: {
+    must_be_citizen?: boolean | null;
+    must_be_over_18?: boolean | null;
+    must_be_current_student?: boolean | null;
+    has_required_courses?: boolean | null;
+    requiredCourses?:
+      | {
+          courseCode: string;
+          note?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    has_required_hours?: boolean | null;
+    requiredHours?: {
+      hours: number;
+      note?: string | null;
+    };
+  };
+  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
+  publishedAt?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programs".
+ */
+export interface Program {
+  id: string;
+  title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -919,6 +1054,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: string | User;
+      } | null)
+    | ({
+        relationTo: 'opportunities';
+        value: string | Opportunity;
+      } | null)
+    | ({
+        relationTo: 'programs';
+        value: string | Program;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1276,6 +1419,101 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "opportunities_select".
+ */
+export interface OpportunitiesSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  researchType?: T;
+  modality?: T;
+  dates?:
+    | T
+    | {
+        start?: T;
+        end?: T;
+      };
+  deadline?:
+    | T
+    | {
+        isRolling?: T;
+        date?: T;
+      };
+  'parent-program'?: T;
+  contact?:
+    | T
+    | {
+        type?: T;
+        name?: T;
+        email?: T;
+        phone?: T;
+        department?: T;
+        office?:
+          | T
+          | {
+              building?: T;
+              room?: T;
+              address?: T;
+            };
+        id?: T;
+      };
+  affiliations?: T;
+  keywords?:
+    | T
+    | {
+        keyword?: T;
+        id?: T;
+      };
+  restrictions?:
+    | T
+    | {
+        must_be_citizen?: T;
+        must_be_over_18?: T;
+        must_be_current_student?: T;
+        has_required_courses?: T;
+        requiredCourses?:
+          | T
+          | {
+              courseCode?: T;
+              note?: T;
+              id?: T;
+            };
+        has_required_hours?: T;
+        requiredHours?:
+          | T
+          | {
+              hours?: T;
+              note?: T;
+            };
+      };
+  layout?:
+    | T
+    | {
+        cta?: T | CallToActionBlockSelect<T>;
+        content?: T | ContentBlockSelect<T>;
+        mediaBlock?: T | MediaBlockSelect<T>;
+        archive?: T | ArchiveBlockSelect<T>;
+        formBlock?: T | FormBlockSelect<T>;
+      };
+  publishedAt?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programs_select".
+ */
+export interface ProgramsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1652,6 +1890,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'posts';
           value: string | Post;
+        } | null)
+      | ({
+          relationTo: 'opportunities';
+          value: string | Opportunity;
         } | null);
     global?: string | null;
     user?: (string | null) | User;
