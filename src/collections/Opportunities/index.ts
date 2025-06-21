@@ -104,6 +104,14 @@ export const Opportunities: CollectionConfig<'opportunities'> = {
               required: true,
             },
             {
+              name: 'modalityKnown',
+              type: 'checkbox',
+              label: 'Modality Known',
+              admin: {
+                description: 'Check if the modality of the opportunity is known.',
+              },
+            },
+            {
               name: 'modality',
               type: 'select',
               options: [
@@ -112,6 +120,9 @@ export const Opportunities: CollectionConfig<'opportunities'> = {
                 { label: 'Hybrid', value: 'hybrid' },
               ],
               hasMany: true,
+              admin: {
+                condition: (data, siblingData) => siblingData?.modalityKnown,
+              },
               required: true,
             },
             {

@@ -742,11 +742,15 @@ export interface Opportunity {
    * A detailed description of the opportunity.
    */
   description: string;
-  researchType: 'Internship' | 'Undergraduate Research' | 'Graduate Research' | 'Other';
-  modality: 'in-person' | 'remote' | 'hybrid';
-  dates: {
-    start: string;
-    end: string;
+  researchType: ('Internship' | 'Undergraduate Research' | 'Graduate Research' | 'Postdoctoral Research' | 'Other')[];
+  /**
+   * Check if the modality of the opportunity is known.
+   */
+  modalityKnown?: boolean | null;
+  modality?: ('in-person' | 'remote' | 'hybrid')[] | null;
+  dates?: {
+    start?: string | null;
+    end?: string | null;
   };
   deadline?: {
     isRolling?: boolean | null;
@@ -756,7 +760,7 @@ export interface Opportunity {
   contact: {
     type: 'person' | 'organization';
     name: string;
-    email: string;
+    email?: string | null;
     phone?: string | null;
     department?:
       | (
@@ -841,8 +845,11 @@ export interface Opportunity {
       hours: number;
       note?: string | null;
     };
+    /**
+     * Any additional requirements or restrictions
+     */
+    additionalRequirements?: string | null;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
   publishedAt?: string | null;
   slug?: string | null;
   slugLock?: boolean | null;
@@ -1428,6 +1435,7 @@ export interface OpportunitiesSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   researchType?: T;
+  modalityKnown?: T;
   modality?: T;
   dates?:
     | T
@@ -1487,15 +1495,7 @@ export interface OpportunitiesSelect<T extends boolean = true> {
               hours?: T;
               note?: T;
             };
-      };
-  layout?:
-    | T
-    | {
-        cta?: T | CallToActionBlockSelect<T>;
-        content?: T | ContentBlockSelect<T>;
-        mediaBlock?: T | MediaBlockSelect<T>;
-        archive?: T | ArchiveBlockSelect<T>;
-        formBlock?: T | FormBlockSelect<T>;
+        additionalRequirements?: T;
       };
   publishedAt?: T;
   slug?: T;
