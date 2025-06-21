@@ -340,6 +340,22 @@ export const Opportunities: CollectionConfig<'opportunities'> = {
         position: 'sidebar',
       },
     },
+    {
+      name: 'detailsLink',
+      type: 'text',
+      admin: {
+        description: 'Optional link to more details about the opportunity.',
+      },
+      required: false,
+    },
+    {
+      name: 'applyLink',
+      type: 'text',
+      admin: {
+        description: 'Optional link to apply for the opportunity.',
+      },
+      required: false,
+    },
     ...slugField(),
   ],
   hooks: {

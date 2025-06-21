@@ -851,6 +851,14 @@ export interface Opportunity {
     additionalRequirements?: string | null;
   };
   publishedAt?: string | null;
+  /**
+   * Optional link to more details about the opportunity.
+   */
+  detailsLink?: string | null;
+  /**
+   * Optional link to apply for the opportunity.
+   */
+  applyLink?: string | null;
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -1498,6 +1506,8 @@ export interface OpportunitiesSelect<T extends boolean = true> {
         additionalRequirements?: T;
       };
   publishedAt?: T;
+  detailsLink?: T;
+  applyLink?: T;
   slug?: T;
   slugLock?: T;
   updatedAt?: T;
