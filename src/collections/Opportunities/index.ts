@@ -3,11 +3,6 @@ import type { CollectionConfig } from 'payload'
 import { slugField } from '@/fields/slug'
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
-import { Archive } from '../../blocks/ArchiveBlock/config'
-import { CallToAction } from '../../blocks/CallToAction/config'
-import { Content } from '../../blocks/Content/config'
-import { FormBlock } from '../../blocks/Form/config'
-import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
@@ -102,8 +97,10 @@ export const Opportunities: CollectionConfig<'opportunities'> = {
                 { label: 'Internship', value: 'Internship' },
                 { label: 'Undergraduate Research', value: 'Undergraduate Research' },
                 { label: 'Graduate Research', value: 'Graduate Research' },
+                { label: 'Postdoctoral Research', value: 'Postdoctoral Research' },
                 { label: 'Other', value: 'Other' },
               ],
+              hasMany: true,
               required: true,
             },
             {
@@ -114,6 +111,7 @@ export const Opportunities: CollectionConfig<'opportunities'> = {
                 { label: 'Remote', value: 'remote' },
                 { label: 'Hybrid', value: 'hybrid' },
               ],
+              hasMany: true,
               required: true,
             },
             {
@@ -123,12 +121,10 @@ export const Opportunities: CollectionConfig<'opportunities'> = {
                 {
                   name: 'start',
                   type: 'date',
-                  required: true,
                 },
                 {
                   name: 'end',
                   type: 'date',
-                  required: true,
                 },
               ],
             },
@@ -183,11 +179,12 @@ export const Opportunities: CollectionConfig<'opportunities'> = {
                 {
                   name: 'email',
                   type: 'email',
-                  required: true,
+                  required: false,
                 },
                 {
                   name: 'phone',
                   type: 'text',
+                  required: false,
                 },
                 {
                   name: 'department',
@@ -196,6 +193,7 @@ export const Opportunities: CollectionConfig<'opportunities'> = {
                     label: value.fullName,
                     value: key,
                   })),
+                  required: false,
                 },
                 {
                   name: 'office',
@@ -214,6 +212,7 @@ export const Opportunities: CollectionConfig<'opportunities'> = {
                       type: 'text',
                     },
                   ],
+                  required: false,
                 },
               ],
             },
@@ -309,23 +308,17 @@ export const Opportunities: CollectionConfig<'opportunities'> = {
                     },
                   ],
                 },
+                {
+                  name: 'additionalRequirements',
+                  type: 'textarea',
+                  admin: {
+                    description: 'Any additional requirements or restrictions',
+                  },
+                  required: false,
+                },
               ],
             },
           ],
-        },
-        {
-          fields: [
-            {
-              name: 'layout',
-              type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock],
-              required: true,
-              admin: {
-                initCollapsed: true,
-              },
-            },
-          ],
-          label: 'Content',
         },
       ],
     },
