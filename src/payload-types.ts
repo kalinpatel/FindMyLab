@@ -820,6 +820,24 @@ export interface Opportunity {
       )[]
     | null;
   /**
+   * Fields to help with searching and categorizing
+   */
+  fields?:
+    | {
+        field?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Topics to help with searching and categorizing
+   */
+  topics?:
+    | {
+        topic?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * Keywords to help with searching and categorizing
    */
   keywords?:
@@ -1476,6 +1494,18 @@ export interface OpportunitiesSelect<T extends boolean = true> {
         id?: T;
       };
   affiliations?: T;
+  fields?:
+    | T
+    | {
+        field?: T;
+        id?: T;
+      };
+  topics?:
+    | T
+    | {
+        topic?: T;
+        id?: T;
+      };
   keywords?:
     | T
     | {

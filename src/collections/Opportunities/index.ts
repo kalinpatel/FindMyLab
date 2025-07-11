@@ -237,6 +237,32 @@ export const Opportunities: CollectionConfig<'opportunities'> = {
               })),
             },
             {
+              name: 'fields',
+              type: 'array',
+              fields: [
+                {
+                  name: 'field',
+                  type: 'text',
+                },
+              ],
+              admin: {
+                description: 'Fields to help with searching and categorizing',
+              },
+            },
+            {
+              name: 'topics',
+              type: 'array',
+              fields: [
+                {
+                  name: 'topic',
+                  type: 'text',
+                },
+              ],
+              admin: {
+                description: 'Topics to help with searching and categorizing',
+              },
+            },
+            {
               name: 'keywords',
               type: 'array',
               fields: [
